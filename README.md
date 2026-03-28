@@ -1,3 +1,5 @@
+[![Русский](https://img.shields.io/badge/lang-Русский-blue)](README.ru.md)
+
 # CityEdit
 
 CityEdit is a cross-platform profile editor for Subway Surfers City. It decrypts, parses, modifies, and re-encrypts the game's local save file, allowing full control over surfers, boards, skins, wallet, statistics, purchases, and season pass state.
@@ -315,4 +317,4 @@ The Android build is configured to use Vulkan as the primary rendering backend w
 
 ## License
 
-This project is provided as-is for educational and personal use. It is not affiliated with Sybo Games or the Subway Surfers franchise.
+This project is licensed under the [MIT License](LICENSE).
