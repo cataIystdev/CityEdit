@@ -123,7 +123,8 @@ public class ProfileService
             }
             else if (prop.Name == "lastUpdated")
             {
-                rootDict["lastUpdated"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                // Формат ISO 8601 с 7 знаками дробной части, как в оригинале
+                rootDict["lastUpdated"] = DateTimeOffset.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ");
             }
             else
             {
@@ -203,8 +204,8 @@ public class ProfileService
             }
             else if (prop.Name == "lastUpdated")
             {
-                // Обновляем timestamp, чтобы игра приняла профиль как актуальный
-                rootDict["lastUpdated"] = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                // Формат ISO 8601 с 7 знаками дробной части, как в оригинале
+                rootDict["lastUpdated"] = DateTimeOffset.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ");
             }
             else
             {

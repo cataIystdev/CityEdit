@@ -152,19 +152,35 @@ public class ShizukuBridge
     }
 
     /// <summary>
-    /// Записывает файл: File.WriteAllBytes -> temp -> Shizuku cp.
+    /// Записывает файл: base64 chunks -> temp -> Shizuku cp.
     /// После записи выполняет sync для гарантии flush на диск.
+    /// Base64 записывается чанками по 48KB чтобы не превысить лимит аргументов shell.
     /// </summary>
     public void WriteFile(string path, byte[] data)
     {
         // /data/local/tmp доступен для Shizuku shell (uid 2000)
+        string tempB64 = $"/data/local/tmp/ce_b64_{Guid.NewGuid():N}";
         string tempFile = $"/data/local/tmp/ce_w_{Guid.NewGuid():N}";
 
         try
         {
-            // Записываем во временный файл через Shizuku (base64)
             string base64 = Convert.ToBase64String(data);
-            ExecuteShizukuShell($"echo '{base64}' | base64 -d > '{tempFile}'");
+
+            // Записываем base64 чанками — echo с большими строками (>64KB)
+            // превышает лимит аргументов shell и молча обрезает данные.
+            const int chunkSize = 49152; // 48KB — безопасный размер для shell
+            for (int offset = 0; offset < base64.Length; offset += chunkSize)
+            {
+                int len = Math.Min(chunkSize, base64.Length - offset);
+                string chunk = base64.Substring(offset, len);
+                string op = offset == 0 ? ">" : ">>";
+                ExecuteShizukuShell($"printf '%s' '{chunk}' {op} '{tempB64}'");
+            }
+
+            // Декодируем base64 из файла в бинарный
+            ExecuteShizukuShell($"base64 -d '{tempB64}' > '{tempFile}'");
+
+            // Копируем на место
             string result = ExecuteShizukuShell(
                 $"cp '{tempFile}' '{path}' 2>&1 && echo 'DONE'");
 
@@ -177,7 +193,7 @@ public class ShizukuBridge
         finally
         {
             // Удаляем temp через Shizuku
-            try { ExecuteShizukuShell($"rm -f '{tempFile}'"); } catch { }
+            try { ExecuteShizukuShell($"rm -f '{tempB64}' '{tempFile}'"); } catch { }
         }
     }
 
