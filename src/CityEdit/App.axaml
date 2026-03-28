@@ -1,0 +1,46 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CityEdit.App"
+             RequestedThemeVariant="Dark">
+    <Application.Styles>
+        <FluentTheme />
+        <StyleInclude Source="avares://CityEdit/Styles/AppTheme.axaml"/>
+    </Application.Styles>
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="SystemControlBackgroundAltHighBrush" Color="#0A0A0A"/>
+                    <!-- Override system accent to grey for non-custom elements -->
+                    <Color x:Key="SystemAccentColor">#FFFFFF</Color>
+                    <Color x:Key="SystemAccentColorDark1">#E0E0E0</Color>
+                    <Color x:Key="SystemAccentColorDark2">#C0C0C0</Color>
+                    <Color x:Key="SystemAccentColorDark3">#A0A0A0</Color>
+                    <Color x:Key="SystemAccentColorLight1">#FFFFFF</Color>
+                    <Color x:Key="SystemAccentColorLight2">#FFFFFF</Color>
+                    <Color x:Key="SystemAccentColorLight3">#FFFFFF</Color>
+                    <!-- ToggleSwitch: white fill when on, black knob -->
+                    <SolidColorBrush x:Key="ToggleSwitchFillOn" Color="#FFFFFF"/>
+                    <SolidColorBrush x:Key="ToggleSwitchFillOnPointerOver" Color="#E0E0E0"/>
+                    <SolidColorBrush x:Key="ToggleSwitchFillOnPressed" Color="#C0C0C0"/>
+                    <SolidColorBrush x:Key="ToggleSwitchStrokeOn" Color="#FFFFFF"/>
+                    <SolidColorBrush x:Key="ToggleSwitchStrokeOnPointerOver" Color="#E0E0E0"/>
+                    <SolidColorBrush x:Key="ToggleSwitchStrokeOnPressed" Color="#C0C0C0"/>
+                    <SolidColorBrush x:Key="ToggleSwitchKnobFillOn" Color="#000000"/>
+                    <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPointerOver" Color="#111111"/>
+                    <SolidColorBrush x:Key="ToggleSwitchKnobFillOnPressed" Color="#222222"/>
+                    <!-- CheckBox: white fill when checked, black glyph -->
+                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillChecked" Color="#FFFFFF"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPointerOver" Color="#E0E0E0"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundFillCheckedPressed" Color="#C0C0C0"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundChecked" Color="#000000"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundCheckedPointerOver" Color="#000000"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckGlyphForegroundCheckedPressed" Color="#000000"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeChecked" Color="#FFFFFF"/>
+                    <SolidColorBrush x:Key="CheckBoxCheckBackgroundStrokeCheckedPointerOver" Color="#E0E0E0"/>
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

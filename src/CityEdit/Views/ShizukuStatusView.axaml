@@ -1,0 +1,56 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             x:Class="CityEdit.Views.ShizukuStatusView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                Spacing="16" MaxWidth="350">
+
+        <!-- Иконка статуса -->
+        <Border Background="#1A1A1A" CornerRadius="40"
+                Width="80" Height="80"
+                HorizontalAlignment="Center">
+            <TextBlock Text="SH" FontSize="28" FontWeight="Bold"
+                       Foreground="#4A4A4A"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- Заголовок -->
+        <TextBlock Text="SHIZUKU" FontSize="20" FontWeight="Bold"
+                   Foreground="#FFFFFF"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Описание статуса -->
+        <TextBlock Text="{Binding ShizukuStatusText}"
+                   Foreground="#808080" FontSize="13"
+                   TextWrapping="Wrap" TextAlignment="Center"
+                   HorizontalAlignment="Center"
+                   LineHeight="20"/>
+
+        <!-- Инструкция -->
+        <Border Background="#151515" CornerRadius="8" Padding="16"
+                BorderBrush="#1E1E1E" BorderThickness="1">
+            <StackPanel Spacing="8">
+                <TextBlock Text="Как запустить:" Foreground="#FFFFFF"
+                           FontSize="12" FontWeight="Bold"/>
+                <TextBlock Foreground="#808080" FontSize="11"
+                           TextWrapping="Wrap" LineHeight="18"
+                           Text="1. Откройте приложение Shizuku&#x0a;2. Запустите сервис через беспроводную отладку или ADB&#x0a;3. Вернитесь в CityEdit и нажмите кнопку ниже"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Кнопка запроса разрешения -->
+        <Button Content="ЗАПРОСИТЬ РАЗРЕШЕНИЕ"
+                Command="{Binding RequestShizukuPermissionCommand}"
+                HorizontalAlignment="Stretch" Padding="16,12"
+                FontSize="12"
+                IsVisible="{Binding IsShizukuAvailable}"/>
+
+        <!-- Кнопка повторной проверки -->
+        <Button Classes="accent" Content="ПРОВЕРИТЬ SHIZUKU"
+                Command="{Binding CheckShizukuAndLoadCommand}"
+                HorizontalAlignment="Stretch" Padding="16,12"
+                FontSize="12"/>
+    </StackPanel>
+</UserControl>

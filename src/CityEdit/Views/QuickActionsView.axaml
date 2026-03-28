@@ -1,0 +1,124 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             x:Class="CityEdit.Views.QuickActionsView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <StackPanel Spacing="12" Margin="4">
+
+        <!-- Заголовок -->
+        <TextBlock Classes="heading" Text="QUICK ACTIONS" FontSize="16"
+                   Margin="0,4,0,8"/>
+
+        <!-- Разблокировать всё одной кнопкой -->
+        <Border Background="#151515" CornerRadius="8" Padding="16"
+                BorderBrush="#1E1E1E" BorderThickness="1">
+            <StackPanel Spacing="8">
+                <TextBlock Text="UNLOCK EVERYTHING" Foreground="#FFFFFF"
+                           FontSize="14" FontWeight="Bold"/>
+                <TextBlock Text="Разблокирует всех серферов, скины, доски. Устанавливает максимальный уровень, валюту, сезонный пропуск и убирает рекламу."
+                           Foreground="#808080" FontSize="11" TextWrapping="Wrap"/>
+                <Button Classes="accent" Content="UNLOCK ALL"
+                        Command="{Binding UnlockEverythingCommand}"
+                        HorizontalAlignment="Stretch" Padding="12,10"
+                        FontSize="13"
+                        IsEnabled="{Binding IsProfileLoaded}"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Сетка действий -->
+        <UniformGrid Columns="2" Margin="0,4">
+
+            <!-- Серферы -->
+            <Border Background="#151515" CornerRadius="8" Padding="12" Margin="2"
+                    BorderBrush="#1E1E1E" BorderThickness="1">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="SURFERS" Foreground="#FFFFFF"
+                               FontSize="12" FontWeight="Bold"/>
+                    <Button Content="UNLOCK ALL"
+                            Command="{Binding UnlockAllSurfersCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="LOCK ALL"
+                            Command="{Binding LockAllSurfersCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="MAX LEVEL"
+                            Command="{Binding MaxLevelAllSurfersCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Скины -->
+            <Border Background="#151515" CornerRadius="8" Padding="12" Margin="2"
+                    BorderBrush="#1E1E1E" BorderThickness="1">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="SKINS" Foreground="#FFFFFF"
+                               FontSize="12" FontWeight="Bold"/>
+                    <Button Content="UNLOCK ALL"
+                            Command="{Binding UnlockAllSkinsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="LOCK ALL"
+                            Command="{Binding LockAllSkinsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Доски -->
+            <Border Background="#151515" CornerRadius="8" Padding="12" Margin="2"
+                    BorderBrush="#1E1E1E" BorderThickness="1">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="BOARDS" Foreground="#FFFFFF"
+                               FontSize="12" FontWeight="Bold"/>
+                    <Button Content="UNLOCK ALL"
+                            Command="{Binding UnlockAllBoardsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="LOCK ALL"
+                            Command="{Binding LockAllBoardsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="MAX LEVEL"
+                            Command="{Binding MaxLevelAllBoardsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Валюта и прочее -->
+            <Border Background="#151515" CornerRadius="8" Padding="12" Margin="2"
+                    BorderBrush="#1E1E1E" BorderThickness="1">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="OTHER" Foreground="#FFFFFF"
+                               FontSize="12" FontWeight="Bold"/>
+                    <Button Content="MAX CURRENCY"
+                            Command="{Binding MaxAllCurrencyCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="SEASON PASS"
+                            Command="{Binding ActivateSeasonPassCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Content="REMOVE ADS"
+                            Command="{Binding RemoveAdsCommand}"
+                            HorizontalAlignment="Stretch" Padding="8,6"
+                            FontSize="10"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,23 @@
+# Build outputs
+bin/
+obj/
+
+# IDE
+.idea/
+.vs/
+*.user
+*.suo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Profile data (contains personal game save data)
+profile
+
+# Rider
+*.sln.DotSettings.user
+
+# Agent/AI
+.agent/
+.agents/

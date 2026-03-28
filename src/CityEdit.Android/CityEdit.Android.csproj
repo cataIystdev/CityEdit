@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <ApplicationId>com.catalyst.cityedit</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
+    <ApplicationTitle>CityEdit</ApplicationTitle>
+    <Nullable>enable</Nullable>
+    <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../CityEdit/CityEdit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Android" Version="11.3.12" />
+  </ItemGroup>
+
+  <!-- Shizuku API AAR bindings -->
+  <ItemGroup>
+    <AndroidLibrary Include="Libs/shizuku-api.aar" />
+    <AndroidLibrary Include="Libs/shizuku-provider.aar" />
+    <AndroidLibrary Include="Libs/shizuku-shared.aar" />
+    <AndroidLibrary Include="Libs/shizuku-aidl.aar" />
+  </ItemGroup>
+</Project>

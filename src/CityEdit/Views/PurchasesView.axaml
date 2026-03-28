@@ -1,0 +1,67 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             xmlns:items="using:CityEdit.ViewModels.Items"
+             x:Class="CityEdit.Views.PurchasesView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <DockPanel>
+        <TextBlock DockPanel.Dock="Top" Classes="heading" Text="PURCHASES" Margin="0,0,0,16"/>
+
+        <!-- Панель добавления покупки -->
+        <Border DockPanel.Dock="Top" Classes="card" Margin="0,0,0,12">
+            <StackPanel Spacing="8">
+                <TextBlock Text="ADD PURCHASE" FontSize="10" Foreground="#808080"/>
+                <!-- ComboBox на полную ширину -->
+                <ComboBox ItemsSource="{Binding AvailablePurchaseIds}"
+                          SelectedItem="{Binding SelectedPurchaseId}"
+                          HorizontalAlignment="Stretch"
+                          IsEditable="False"/>
+                <!-- Кнопки управления — адаптивно через WrapPanel -->
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="ADD"
+                            Command="{Binding AddPurchaseCommand}"
+                            Padding="16,6" FontSize="10"
+                            Margin="0,0,4,4"/>
+                    <Button Content="REMOVE ADS"
+                            Command="{Binding RemoveAdsCommand}"
+                            Padding="16,6" FontSize="10"
+                            Margin="0,0,4,4"/>
+                    <Button Content="PREMIUM PASS"
+                            Command="{Binding ActivateSeasonPassCommand}"
+                            Padding="16,6" FontSize="10"
+                            Margin="0,0,4,4"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Список покупок и кнопка удаления -->
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal"
+                        Spacing="8" Margin="0,8,0,0">
+                <Button Content="REMOVE SELECTED" FontSize="10"
+                        Command="{Binding RemoveSelectedPurchaseCommand}"
+                        Classes="danger" Padding="16,6"/>
+            </StackPanel>
+
+            <ListBox ItemsSource="{Binding Purchases}"
+                     SelectedItem="{Binding SelectedPurchase}"
+                     MinHeight="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate x:DataType="items:PurchaseItemViewModel">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="{Binding ProductId}"
+                                       FontSize="12" VerticalAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       TextTrimming="None"/>
+                            <TextBlock Grid.Column="1" Text="{Binding PurchaseDate}"
+                                       FontSize="10" Foreground="#808080"
+                                       VerticalAlignment="Center"
+                                       Margin="8,0,0,0"/>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </DockPanel>
+    </DockPanel>
+</UserControl>

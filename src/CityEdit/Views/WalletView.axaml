@@ -1,0 +1,37 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             xmlns:items="using:CityEdit.ViewModels.Items"
+             x:Class="CityEdit.Views.WalletView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Margin="0,0,0,16">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Classes="heading" Text="WALLET" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="MAX ALL" FontSize="10"
+                        Command="{Binding MaxAllCurrencyCommand}" Padding="12,6"/>
+            </Grid>
+        </Border>
+
+        <Border Classes="card">
+            <ItemsControl ItemsSource="{Binding WalletItems}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="items:WalletItemViewModel">
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,4">
+                            <TextBlock Text="{Binding DisplayName}"
+                                       VerticalAlignment="Center" FontSize="13"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,8,0"/>
+                            <NumericUpDown Grid.Column="1"
+                                           Value="{Binding Count}"
+                                           Minimum="0" Maximum="99999999"
+                                           MinWidth="120" FontSize="13"
+                                           HorizontalAlignment="Right"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </DockPanel>
+</UserControl>

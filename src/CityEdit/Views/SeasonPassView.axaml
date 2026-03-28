@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             x:Class="CityEdit.Views.SeasonPassView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Margin="0,0,0,16">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBlock Classes="heading" Text="SEASON PASS" VerticalAlignment="Center"/>
+                <Button Grid.Column="1" Content="ACTIVATE"
+                        Command="{Binding ActivateSeasonPassCommand}"
+                        Classes="accent" FontSize="10" Padding="16,6"/>
+            </Grid>
+        </Border>
+
+        <Border Classes="card">
+            <StackPanel Spacing="16">
+                <!-- Статус покупки -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="Purchased" VerticalAlignment="Center"
+                               FontSize="13"/>
+                    <ToggleSwitch Grid.Column="1"
+                                  IsChecked="{Binding SeasonPassPurchased}"
+                                  MinWidth="40"/>
+                </Grid>
+
+                <Separator/>
+
+                <!-- Очки -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <TextBlock Text="Season Points" VerticalAlignment="Center"
+                               FontSize="13"/>
+                    <NumericUpDown Grid.Column="1"
+                                   Value="{Binding SeasonPassPoints}"
+                                   Minimum="0" Maximum="99999"
+                                   MinWidth="120" FontSize="13"
+                                   HorizontalAlignment="Right"/>
+                </Grid>
+            </StackPanel>
+        </Border>
+    </DockPanel>
+</UserControl>

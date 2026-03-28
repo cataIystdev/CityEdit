@@ -1,0 +1,167 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             xmlns:views="using:CityEdit.Views"
+             x:Class="CityEdit.Views.MobileMainView"
+             x:DataType="vm:MainWindowViewModel"
+             Background="#0A0A0A">
+
+    <Grid RowDefinitions="Auto,Auto,*,Auto">
+
+        <!-- ========== HEADER ========== -->
+        <Border Grid.Row="0" Background="#0A0A0A" Padding="16,12"
+                BorderBrush="#1A1A1A" BorderThickness="0,0,0,1">
+            <Grid RowDefinitions="Auto,Auto">
+                <!-- Row 0: Title + Save/Export -->
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                        <TextBlock Classes="title" Text="CITYEDIT" VerticalAlignment="Center"
+                                   FontSize="18"/>
+                        <TextBlock Classes="subtitle" Text="v1.0.0" VerticalAlignment="Center"
+                                   Margin="0,2,0,0" FontSize="10"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="6">
+                        <Button Command="{Binding SaveFileCommand}" Content="SAVE"
+                                Classes="accent" Padding="16,8" FontSize="11"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                        <Button Command="{Binding SaveFileAsCommand}" Content="EXPORT"
+                                Padding="16,8" FontSize="11"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Row 1: Launch Game button (full width) -->
+                <Button Grid.Row="1" Content="▶  ЗАПУСТИТЬ ИГРУ"
+                        Command="{Binding LaunchGameCommand}"
+                        HorizontalAlignment="Stretch"
+                        Padding="12,8" FontSize="11"
+                        Margin="0,8,0,0"
+                        IsVisible="{Binding IsProfileLoaded}"
+                        Background="#1A1A1A" BorderBrush="#2A2A2A"/>
+            </Grid>
+        </Border>
+
+        <!-- ========== TAB STRIP с подсказкой прокрутки ========== -->
+        <Border Grid.Row="1" Background="#0F0F0F"
+                BorderBrush="#1A1A1A" BorderThickness="0,0,0,1">
+            <Grid>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                              VerticalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="TabStrip" Orientation="Horizontal"
+                                Margin="8,4" Spacing="2">
+                        <Button Classes="nav" Content="QUICK" Tag="0"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="SURFERS" Tag="1"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="BOARDS" Tag="2"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="STATS" Tag="3"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="WALLET" Tag="4"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="PURCHASES" Tag="5"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <Button Classes="nav" Content="SEASON" Tag="6"
+                                Click="OnNavClick" Padding="14,8" FontSize="11"/>
+                        <!-- Пустой элемент для отступа справа -->
+                        <Panel Width="4"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Правый градиент-подсказка прокрутки -->
+                <Border HorizontalAlignment="Right" Width="32"
+                        IsHitTestVisible="False"
+                        x:Name="TabScrollHint">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0%,50%" EndPoint="100%,50%">
+                            <GradientStop Color="#000F0F0F" Offset="0"/>
+                            <GradientStop Color="#FF0F0F0F" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <!-- Стрелка ›  -->
+                    <TextBlock Text="›" FontSize="16" Foreground="#808080"
+                               VerticalAlignment="Center" HorizontalAlignment="Center"
+                               Margin="8,0,0,0"/>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <Panel Grid.Row="2" Margin="12,8">
+
+            <!-- Placeholder когда файл не загружен и Shizuku ок -->
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                        IsVisible="{Binding !IsProfileLoaded}" Spacing="8">
+                <TextBlock Classes="title" Text="CITYEDIT"
+                           HorizontalAlignment="Center" Opacity="0.3"
+                           FontSize="24"/>
+                <TextBlock Text="Загрузка профиля..."
+                           Foreground="#4A4A4A" FontSize="13"
+                           HorizontalAlignment="Center"
+                           IsVisible="{Binding IsLoading}"/>
+            </StackPanel>
+
+            <!-- Tab Content -->
+            <Panel IsVisible="{Binding IsProfileLoaded}">
+
+                <!-- Quick Actions Tab -->
+                <ScrollViewer IsVisible="True" x:Name="QuickTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:QuickActionsView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Surfers Tab -->
+                <ScrollViewer IsVisible="False" x:Name="SurfersTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:SurfersView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Boards Tab -->
+                <ScrollViewer IsVisible="False" x:Name="BoardsTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:BoardsView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Stats Tab -->
+                <ScrollViewer IsVisible="False" x:Name="StatsTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:StatsView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Wallet Tab -->
+                <ScrollViewer IsVisible="False" x:Name="WalletTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:WalletView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Purchases Tab -->
+                <ScrollViewer IsVisible="False" x:Name="PurchasesTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:PurchasesView DataContext="{Binding}"/>
+                </ScrollViewer>
+
+                <!-- Season Pass Tab -->
+                <ScrollViewer IsVisible="False" x:Name="SeasonTab"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <views:SeasonPassView DataContext="{Binding}"/>
+                </ScrollViewer>
+            </Panel>
+        </Panel>
+
+        <!-- ========== STATUS BAR ========== -->
+        <Border Grid.Row="3" Background="#0A0A0A" Padding="12,6"
+                BorderBrush="#1A1A1A" BorderThickness="0,1,0,0">
+            <TextBlock Text="{Binding StatusMessage}" Foreground="#4A4A4A"
+                       FontSize="10" VerticalAlignment="Center"/>
+        </Border>
+
+        <!-- ========== SHIZUKU OVERLAY (blur + block) ========== -->
+        <Border Grid.Row="0" Grid.RowSpan="4"
+                IsVisible="{Binding ShowShizukuScreen}"
+                Background="#CC000000"
+                IsHitTestVisible="True">
+            <views:ShizukuStatusView DataContext="{Binding}"/>
+        </Border>
+    </Grid>
+</UserControl>

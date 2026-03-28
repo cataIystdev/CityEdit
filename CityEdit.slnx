@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CityEdit/CityEdit.csproj" />
+    <Project Path="src/CityEdit.Android/CityEdit.Android.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CityEdit.Tests/CityEdit.Tests.csproj" />
+  </Folder>
+</Solution>

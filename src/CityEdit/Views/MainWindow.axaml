@@ -1,0 +1,153 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CityEdit.ViewModels"
+        xmlns:views="using:CityEdit.Views"
+        xmlns:items="using:CityEdit.ViewModels.Items"
+        x:Class="CityEdit.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="CityEdit"
+        Width="1050" Height="720"
+        MinWidth="900" MinHeight="600"
+        WindowStartupLocation="CenterScreen"
+        Background="#0A0A0A">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- ========== HEADER ========== -->
+        <Border Grid.Row="0" Background="#0A0A0A" Padding="20,16"
+                BorderBrush="#1A1A1A" BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="*,Auto">
+                <StackPanel Orientation="Horizontal" Spacing="12" VerticalAlignment="Center">
+                    <TextBlock Classes="title" Text="CITYEDIT" VerticalAlignment="Center"/>
+                    <TextBlock Classes="subtitle" Text="PROFILE EDITOR" VerticalAlignment="Center"
+                               Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                    <Button Command="{Binding OpenFileCommand}" Content="OPEN"
+                            Padding="20,8"/>
+                    <Button Command="{Binding SaveFileCommand}" Content="SAVE"
+                            Classes="accent" Padding="20,8"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                    <Button Command="{Binding SaveFileAsCommand}" Content="SAVE AS"
+                            Padding="20,8"
+                            IsEnabled="{Binding IsProfileLoaded}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ========== MAIN CONTENT ========== -->
+        <Grid Grid.Row="1" ColumnDefinitions="180,*">
+
+            <!-- Боковая панель -->
+            <Border Background="#0F0F0F" BorderBrush="#1A1A1A" BorderThickness="0,0,1,0">
+                <DockPanel>
+                    <!-- Навигация по вкладкам -->
+                    <StackPanel DockPanel.Dock="Top" Margin="0,8,0,0">
+                        <Button Classes="nav" Content="SURFERS" Tag="0"
+                                Click="OnNavClick"/>
+                        <Button Classes="nav" Content="BOARDS" Tag="1"
+                                Click="OnNavClick"/>
+                        <Button Classes="nav" Content="STATS" Tag="2"
+                                Click="OnNavClick"/>
+                        <Button Classes="nav" Content="WALLET" Tag="3"
+                                Click="OnNavClick"/>
+                        <Button Classes="nav" Content="PURCHASES" Tag="4"
+                                Click="OnNavClick"/>
+                        <Button Classes="nav" Content="SEASON" Tag="5"
+                                Click="OnNavClick"/>
+                    </StackPanel>
+
+                    <!-- Быстрые действия внизу -->
+                    <StackPanel DockPanel.Dock="Bottom" Margin="8,8" Spacing="4">
+                        <Separator Margin="0,4,0,8"/>
+                        <TextBlock Classes="heading" Text="QUICK ACTIONS" Margin="8,0,0,4"/>
+                        <Button Classes="accent" Content="UNLOCK ALL"
+                                Command="{Binding UnlockEverythingCommand}"
+                                HorizontalAlignment="Stretch" Padding="8,6"
+                                FontSize="10"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                        <Button Content="MAX CURRENCY"
+                                Command="{Binding MaxAllCurrencyCommand}"
+                                HorizontalAlignment="Stretch" Padding="8,6"
+                                FontSize="10"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                        <Button Content="SEASON PASS"
+                                Command="{Binding ActivateSeasonPassCommand}"
+                                HorizontalAlignment="Stretch" Padding="8,6"
+                                FontSize="10"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                        <Button Content="REMOVE ADS"
+                                Command="{Binding RemoveAdsCommand}"
+                                HorizontalAlignment="Stretch" Padding="8,6"
+                                FontSize="10"
+                                IsEnabled="{Binding IsProfileLoaded}"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+
+            <!-- Контент вкладок -->
+            <Border Grid.Column="1" Padding="20">
+                <Panel>
+                    <!-- Placeholder когда файл не загружен -->
+                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
+                                IsVisible="{Binding !IsProfileLoaded}" Spacing="8">
+                        <TextBlock Classes="title" Text="CITYEDIT"
+                                   HorizontalAlignment="Center" Opacity="0.3"/>
+                        <TextBlock Text="Open a profile to start editing"
+                                   Foreground="#4A4A4A" FontSize="13"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Tab Content -->
+                    <Panel IsVisible="{Binding IsProfileLoaded}">
+                        <!-- Surfers Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="SurfersTab">
+                            <views:SurfersView DataContext="{Binding}"/>
+                        </ScrollViewer>
+
+                        <!-- Boards Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="BoardsTab">
+                            <views:BoardsView DataContext="{Binding}"/>
+                        </ScrollViewer>
+
+                        <!-- Stats Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="StatsTab">
+                            <views:StatsView DataContext="{Binding}"/>
+                        </ScrollViewer>
+
+                        <!-- Wallet Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="WalletTab">
+                            <views:WalletView DataContext="{Binding}"/>
+                        </ScrollViewer>
+
+                        <!-- Purchases Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="PurchasesTab">
+                            <views:PurchasesView DataContext="{Binding}"/>
+                        </ScrollViewer>
+
+                        <!-- Season Pass Tab -->
+                        <ScrollViewer IsVisible="False" x:Name="SeasonTab">
+                            <views:SeasonPassView DataContext="{Binding}"/>
+                        </ScrollViewer>
+                    </Panel>
+                </Panel>
+            </Border>
+        </Grid>
+
+        <!-- ========== STATUS BAR ========== -->
+        <Border Grid.Row="2" Background="#0A0A0A" Padding="16,8"
+                BorderBrush="#1A1A1A" BorderThickness="0,1,0,0">
+            <Grid ColumnDefinitions="*,Auto,Auto">
+                <TextBlock Text="{Binding StatusMessage}" Foreground="#4A4A4A"
+                           FontSize="11" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1"
+                           Text="{Binding LoadedFileName}" Foreground="#808080"
+                           FontSize="11" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                <TextBlock Grid.Column="2" Text="v1.0.0 // Catalyst"
+                           Foreground="#333333" FontSize="11"
+                           VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

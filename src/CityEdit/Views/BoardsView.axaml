@@ -1,0 +1,74 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CityEdit.ViewModels"
+             xmlns:items="using:CityEdit.ViewModels.Items"
+             x:Class="CityEdit.Views.BoardsView"
+             x:DataType="vm:MainWindowViewModel">
+
+    <DockPanel>
+        <!-- Верхняя панель -->
+        <Border DockPanel.Dock="Top" Margin="0,0,0,16">
+            <StackPanel Spacing="8">
+                <TextBlock Classes="heading" Text="BOARDS" VerticalAlignment="Center"/>
+                <WrapPanel Orientation="Horizontal">
+                    <Button Content="UNLOCK ALL" FontSize="10"
+                            Command="{Binding UnlockAllBoardsCommand}" Padding="12,6" Margin="0,0,4,4"/>
+                    <Button Content="LOCK ALL" FontSize="10"
+                            Command="{Binding LockAllBoardsCommand}" Padding="12,6" Margin="0,0,4,4"/>
+                    <Button Content="MAX LEVEL" FontSize="10"
+                            Command="{Binding MaxLevelAllBoardsCommand}" Padding="12,6" Margin="0,0,4,4"/>
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <!-- Список досок -->
+        <ItemsControl ItemsSource="{Binding Boards}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate x:DataType="items:BoardItemViewModel">
+                    <Border Classes="card" Margin="0,0,0,6">
+                        <StackPanel Spacing="6">
+                            <!-- Имя доски + владелец — сверху, полная ширина -->
+                            <StackPanel HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding DisplayName}"
+                                           FontWeight="Bold" FontSize="13"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           TextTrimming="None"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding OwnerName}"
+                                           FontSize="11" Foreground="#808080"
+                                           HorizontalAlignment="Center"
+                                           TextAlignment="Center"
+                                           IsVisible="{Binding OwnerName, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            </StackPanel>
+
+                            <!-- Управление: unlock + lvl -->
+                            <Grid ColumnDefinitions="*,*">
+                                <!-- Разблокировка -->
+                                <StackPanel Orientation="Horizontal"
+                                            Spacing="8" VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="UNLOCKED" FontSize="10"
+                                               Foreground="#808080" VerticalAlignment="Center"/>
+                                    <ToggleSwitch IsChecked="{Binding IsUnlocked}" MinWidth="40"/>
+                                </StackPanel>
+
+                                <!-- Уровень -->
+                                <StackPanel Grid.Column="1" Orientation="Horizontal"
+                                            Spacing="4" VerticalAlignment="Center"
+                                            HorizontalAlignment="Center">
+                                    <TextBlock Text="LVL" FontSize="10"
+                                               Foreground="#808080" VerticalAlignment="Center"/>
+                                    <NumericUpDown Value="{Binding Level}"
+                                                   Minimum="1" Maximum="20"
+                                                   MinWidth="90" FontSize="13"
+                                                   HorizontalAlignment="Stretch"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DockPanel>
+</UserControl>
