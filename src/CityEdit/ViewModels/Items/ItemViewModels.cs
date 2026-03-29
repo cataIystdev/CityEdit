@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
+using Avalonia.Media.Imaging;
 using CityEdit.Models.GameData;
 using CityEdit.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -108,6 +109,11 @@ public partial class SurferItemViewModel : ObservableObject
     private int _highScore;
 
     /// <summary>
+    /// Портрет серфера (загружается из embedded ресурсов).
+    /// </summary>
+    public Bitmap? Portrait { get; }
+
+    /// <summary>
     /// Коллекция скинов серфера.
     /// </summary>
     public ObservableCollection<SkinItemViewModel> Skins { get; } = new();
@@ -125,6 +131,7 @@ public partial class SurferItemViewModel : ObservableObject
         _level = level;
         _highScore = highScore;
         _profileService = profileService;
+        Portrait = IconService.GetSurferIcon(displayName);
     }
 
     /// <summary>

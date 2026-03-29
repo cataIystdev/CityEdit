@@ -37,13 +37,22 @@
                 <DataTemplate x:DataType="items:SurferItemViewModel">
                     <Border Classes="card" Margin="0,0,0,8">
                         <StackPanel Spacing="8">
-                            <!-- Имя серфера — сверху по центру -->
-                            <TextBlock Text="{Binding DisplayName}"
-                                       FontWeight="Bold" FontSize="14"
-                                       HorizontalAlignment="Center"
-                                       TextAlignment="Center"
-                                       TextTrimming="None"
-                                       TextWrapping="Wrap"/>
+                            <!-- Портрет + имя серфера -->
+                            <StackPanel Orientation="Horizontal" Spacing="10"
+                                        HorizontalAlignment="Center">
+                                <Border Width="40" Height="40" CornerRadius="20"
+                                        ClipToBounds="True"
+                                        IsVisible="{Binding Portrait, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <Image Source="{Binding Portrait}"
+                                           Width="40" Height="40"
+                                           Stretch="UniformToFill"/>
+                                </Border>
+                                <TextBlock Text="{Binding DisplayName}"
+                                           FontWeight="Bold" FontSize="14"
+                                           VerticalAlignment="Center"
+                                           TextTrimming="None"
+                                           TextWrapping="Wrap"/>
+                            </StackPanel>
 
                             <!-- Управление: unlock + lvl + score — адаптивная сетка -->
                             <Grid ColumnDefinitions="*,*,*">

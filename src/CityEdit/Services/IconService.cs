@@ -1,129 +1,101 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+using Avalonia.Media.Imaging;
+using Avalonia.Platform;
 
 namespace CityEdit.Services;
 
 /// <summary>
-/// Сервис загрузки и кэширования иконок игровых предметов.
-/// Использует embedded ресурсы или файлы из папки icons/.
-/// Иконки извлекаются скриптом tools/extract_icons.py из APK игры.
+/// Сервис загрузки иконок серферов и досок из embedded Avalonia ресурсов.
+/// Иконки хранятся в Assets/Icons/{surfers,boards}/ как AvaloniaResource.
 /// </summary>
-public class IconService
+public static class IconService
 {
-    /// <summary>
-    /// Кэш загруженных иконок: ключ -> путь к файлу.
-    /// </summary>
-    private readonly Dictionary<string, string> _cache = new();
+    private static readonly Dictionary<string, Bitmap?> _cache = new();
 
     /// <summary>
-    /// Базовая папка с иконками.
+    /// Маппинг имён серферов на имена файлов иконок.
     /// </summary>
-    private readonly string? _iconsDir;
-
-    /// <summary>
-    /// Признак доступности иконок.
-    /// </summary>
-    public bool IsAvailable { get; }
-
-    /// <summary>
-    /// Создаёт экземпляр IconService.
-    /// Ищет папку icons/ рядом с приложением или в Assets.
-    /// </summary>
-    public IconService()
+    private static readonly Dictionary<string, string> SurferFileNames = new()
     {
-        // Пробуем найти папку icons рядом с исполняемым файлом
-        var appDir = AppDomain.CurrentDomain.BaseDirectory;
-        var candidates = new[]
-        {
-            Path.Combine(appDir, "icons"),
-            Path.Combine(appDir, "Assets", "icons"),
-            Path.Combine(appDir, "..", "icons"),
-        };
+        { "Jake", "Jake" }, { "Tricky", "Tricky" }, { "Fresh", "Fresh" },
+        { "Prince K", "PrinceK" }, { "Miss Maia", "MissMaia" },
+        { "Monique", "Monique" }, { "Yutani", "Yutani" }, { "Harini", "Harini" },
+        { "Ninja One", "NinjaOne" }, { "Noon", "Noon" }, { "Jenny", "Jenny" },
+        { "Wei", "Wei" }, { "Spike", "Spike" }, { "Ella", "Ella" },
+        { "Jay", "Jay" }, { "Billy", "Billy" }, { "Rosalita", "Rosalita" },
+        { "Tasha", "Tasha" }, { "Jaewoo", "Jaewoo" }, { "Tagbot", "Tagbot" },
+        { "Lucy", "Lucy" }, { "Georgie", "Georgie" }, { "V3ctor", "V3ctor" },
+        { "Zara", "Zara" }, { "Lilah", "Lilah" }, { "Ash", "Ash" }
+    };
 
-        foreach (var dir in candidates)
+    /// <summary>
+    /// Маппинг имён досок на имена файлов иконок (по владельцу).
+    /// </summary>
+    private static readonly Dictionary<string, string> BoardFileNames = new()
+    {
+        { "Electric Blue", "Classic" }, { "Home Runner", "Ash" },
+        { "Trasher", "Jake" }, { "Peace Of Grind", "Jenny" },
+        { "Naughty & Nice", "Tricky" }, { "Globetrotter", "Wei" },
+        { "Grandmaster", "Fresh" }, { "Djinn's Fortune", "PrinceK" },
+        { "Honeycomb", "MissMaia" }, { "Flame Tamer", "Monique" },
+        { "Wakizashi", "NinjaOne" }, { "Knockout", "Noon" },
+        { "Spaced Invader", "Yutani" }, { "Pawsome", "Harini" },
+        { "Dog City", "Spike" }, { "Sub Surf Classic", "Classic" },
+        { "Vaunted", "Ella" }, { "Zephyr Cruiser", "Jake" },
+        { "Eye Of The Viper", "Billy" }, { "Day Of The Shred", "Rosalita" },
+        { "Sweet Street", "Tasha" }, { "G-Tiger", "Jaewoo" },
+        { "Cy-Board", "Tagbot" }, { "Cobweb", "Lucy" },
+        { "Super Hooper", "Georgie" }, { "H4X0R", "V3ctor" },
+        { "Pouncer", "Zara" }, { "Aquiline", "Lilah" }
+    };
+
+    /// <summary>
+    /// Загружает Bitmap из Avalonia embedded ресурса.
+    /// </summary>
+    private static Bitmap? TryLoadAsset(string subPath)
+    {
+        try
         {
-            if (Directory.Exists(dir))
-            {
-                _iconsDir = Path.GetFullPath(dir);
-                IsAvailable = true;
-                IndexIcons();
-                break;
-            }
+            var uri = new Uri($"avares://CityEdit/Assets/Icons/{subPath}");
+            using var stream = AssetLoader.Open(uri);
+            return new Bitmap(stream);
+        }
+        catch
+        {
+            return null;
         }
     }
 
     /// <summary>
-    /// Индексирует все найденные иконки.
+    /// Получает Bitmap портрета серфера.
     /// </summary>
-    private void IndexIcons()
+    public static Bitmap? GetSurferIcon(string surferName)
     {
-        if (_iconsDir == null) return;
+        var key = $"s:{surferName}";
+        if (_cache.TryGetValue(key, out var cached)) return cached;
 
-        foreach (var category in new[] { "surfers", "boards", "skins" })
-        {
-            var catDir = Path.Combine(_iconsDir, category);
-            if (!Directory.Exists(catDir)) continue;
+        Bitmap? bmp = null;
+        if (SurferFileNames.TryGetValue(surferName, out var fn))
+            bmp = TryLoadAsset($"surfers/{fn}.png");
 
-            foreach (var file in Directory.GetFiles(catDir, "*.png"))
-            {
-                var name = Path.GetFileNameWithoutExtension(file).ToLowerInvariant();
-                var key = $"{category}/{name}";
-                _cache[key] = file;
-            }
-        }
+        _cache[key] = bmp;
+        return bmp;
     }
 
     /// <summary>
-    /// Получает путь к иконке серфера по имени.
+    /// Получает Bitmap иконки доски.
     /// </summary>
-    /// <param name="surferName">Имя серфера (например, "Jake").</param>
-    /// <returns>Путь к файлу иконки или null.</returns>
-    public string? GetSurferIcon(string surferName)
+    public static Bitmap? GetBoardIcon(string boardName)
     {
-        var key = $"surfers/{surferName.ToLowerInvariant().Replace(" ", "_")}";
-        return _cache.TryGetValue(key, out var path) ? path : null;
-    }
+        var key = $"b:{boardName}";
+        if (_cache.TryGetValue(key, out var cached)) return cached;
 
-    /// <summary>
-    /// Получает путь к иконке доски по имени.
-    /// </summary>
-    /// <param name="boardName">Имя доски (например, "Electric Blue").</param>
-    /// <returns>Путь к файлу иконки или null.</returns>
-    public string? GetBoardIcon(string boardName)
-    {
-        var key = $"boards/{boardName.ToLowerInvariant().Replace(" ", "_")}";
-        return _cache.TryGetValue(key, out var path) ? path : null;
-    }
+        Bitmap? bmp = null;
+        if (BoardFileNames.TryGetValue(boardName, out var fn))
+            bmp = TryLoadAsset($"boards/{fn}.png");
 
-    /// <summary>
-    /// Получает путь к иконке скина по имени.
-    /// </summary>
-    /// <param name="skinName">Имя скина.</param>
-    /// <returns>Путь к файлу иконки или null.</returns>
-    public string? GetSkinIcon(string skinName)
-    {
-        var key = $"skins/{skinName.ToLowerInvariant().Replace(" ", "_")}";
-        return _cache.TryGetValue(key, out var path) ? path : null;
-    }
-
-    /// <summary>
-    /// Получает общее количество загруженных иконок.
-    /// </summary>
-    public int Count => _cache.Count;
-
-    /// <summary>
-    /// Получает количество иконок в категории.
-    /// </summary>
-    public int GetCategoryCount(string category)
-    {
-        int count = 0;
-        var prefix = $"{category}/";
-        foreach (var key in _cache.Keys)
-        {
-            if (key.StartsWith(prefix)) count++;
-        }
-        return count;
+        _cache[key] = bmp;
+        return bmp;
     }
 }
