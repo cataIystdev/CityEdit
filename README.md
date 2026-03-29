@@ -11,6 +11,7 @@ The application runs on both desktop (Windows, Linux, macOS) and Android. On And
 ## Table of Contents
 
 - [Features](#features)
+- [Video Tutorial](#video-tutorial)
 - [Architecture](#architecture)
 - [Profile File Format](#profile-file-format)
 - [Encryption Details](#encryption-details)
@@ -30,10 +31,12 @@ The application runs on both desktop (Windows, Linux, macOS) and Android. On And
 - Set level (1-20) per surfer
 - Edit high scores
 - Manage individual skin unlock states
+- Character portraits loaded from game assets
 
 **Boards:**
 - Unlock/lock any board
 - Set level (1-20) per board
+- Board icons with owner information
 
 **Wallet:**
 - Edit currency values (coins, keys, headstarts, score boosters, super sneakers, jetpacks, magnets, mystery boxes, mega headstarts, trophies)
@@ -52,18 +55,31 @@ The application runs on both desktop (Windows, Linux, macOS) and Android. On And
 - Toggle season pass purchased state
 - Set season pass point total
 
+**Flags:**
+- Toggle all boolean game flags (analytics seen, campaign, tutorials, ads, etc.)
+- Reset or set individual flags to customize game behavior
+
 **Quick Actions (bulk operations):**
+- Unlock everything with a single tap (surfers, skins, boards, currency, season pass, remove ads)
 - Unlock/lock all surfers (with optional level override)
 - Unlock/lock all boards (with optional level override)
 - Unlock/lock all skins
 - Set all currencies to maximum (999,999)
 - Set season pass to maximum (99,999 points)
+- Remove ads and unlock bonus tracks
+- Skip tutorial
 
 **Android Integration:**
 - Direct read/write to game profile via Shizuku (no root required)
 - Force-stop game before save to prevent auto-save race conditions
 - Launch game directly from editor with fresh profile data
 - Filesystem sync after write to guarantee data persistence
+
+## Video Tutorial
+
+https://github.com/user-attachments/assets/tutorial.mp4
+
+> A video walkthrough demonstrating CityEdit on Android: loading a profile, editing surfer levels, unlocking boards, and saving changes.
 
 ## Architecture
 
@@ -140,8 +156,13 @@ The key and IV are stored in plaintext at the beginning of the file. There is no
 ```
 CityEdit/
   CityEdit.slnx                    Solution file (SLNX format)
+  images/                           Screenshots & video tutorial for README
   src/
     CityEdit/                       Shared library and desktop entry point
+      Assets/
+        Icons/
+          surfers/                  Surfer portrait images (embedded resources)
+          boards/                   Board icon images (embedded resources)
       Core/
         Constants.cs                App-wide constants (version, crypto params, limits)
       Crypto/
@@ -157,22 +178,24 @@ CityEdit/
       Services/
         IFileAccessService.cs       Platform-agnostic file access interface
         DesktopFileAccessService.cs  Desktop implementation (direct File.ReadAllBytes)
+        IconService.cs              Embedded asset icon loader (avares:// scheme)
         ProfileService.cs           In-memory profile state manager
       ViewModels/
         MainWindowViewModel.cs      Primary ViewModel: load, save, edit, launch
         Items/
-          ItemViewModels.cs         Individual item VMs (surfer, board, skin, wallet, stat, purchase)
+          ItemViewModels.cs         Individual item VMs (surfer, board, skin, wallet, stat, purchase, flag)
       Views/
         MainWindow.axaml(.cs)       Desktop main window with sidebar navigation
         MobileMainView.axaml(.cs)   Android main view with horizontal tab navigation
         ShizukuStatusView.axaml(.cs) Shizuku permission/status overlay
         QuickActionsView.axaml(.cs)  Bulk operations panel
-        SurfersView.axaml(.cs)       Surfer list with skin sub-items
-        BoardsView.axaml(.cs)        Board list
+        SurfersView.axaml(.cs)       Surfer list with portraits and skin sub-items
+        BoardsView.axaml(.cs)        Board list with icons
         StatsView.axaml(.cs)         Statistics editor
         WalletView.axaml(.cs)        Currency editor
         PurchasesView.axaml(.cs)     Purchase history editor
         SeasonPassView.axaml(.cs)    Season pass editor
+        FlagsView.axaml(.cs)         Boolean game flags editor
       Converters/
         HalfWidthConverter.cs       Adaptive width converter for skin grid layout
       Styles/
@@ -300,7 +323,7 @@ The Android build is configured to use Vulkan as the primary rendering backend w
 
 1. Run the application.
 2. Click "Open Profile" and select the `profile` file from the game's data directory.
-3. Edit any values using the tabbed interface (Quick Actions, Surfers, Boards, Stats, Wallet, Purchases, Season Pass).
+3. Edit any values using the tabbed interface (Quick Actions, Surfers, Boards, Stats, Wallet, Purchases, Season Pass, Flags).
 4. Click "Save" to write changes back to the same file, or "Save As" to export to a different location.
 
 ### Android
@@ -312,7 +335,11 @@ The Android build is configured to use Vulkan as the primary rendering backend w
 5. Press "Save" to write changes to the game's profile file.
 6. Press "Launch Game" to force-stop the game, write the latest profile, and start the game with your changes applied.
 
-## Screenshots
+## Screenshots & Demo
+
+### Video Tutorial
+
+https://github.com/user-attachments/assets/tutorial.mp4
 
 ### Desktop
 
