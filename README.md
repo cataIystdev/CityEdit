@@ -339,7 +339,7 @@ The Android build is configured to use Vulkan as the primary rendering backend w
 
 ### Video Tutorial
 
-https://github.com/user-attachments/assets/tutorial.mp4
+![Video Tutorial](images/tutorial.mp4)
 
 ### Desktop
 
