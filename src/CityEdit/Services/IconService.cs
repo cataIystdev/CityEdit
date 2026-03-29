@@ -42,7 +42,7 @@ public static class IconService
         { "Wakizashi", "NinjaOne" }, { "Knockout", "Noon" },
         { "Spaced Invader", "Yutani" }, { "Pawsome", "Harini" },
         { "Dog City", "Spike" }, { "Sub Surf Classic", "Classic" },
-        { "Vaunted", "Ella" }, { "Zephyr Cruiser", "Jake" },
+        { "Vaunted", "Ella" }, { "Zephyr Cruiser", "Jay" },
         { "Eye Of The Viper", "Billy" }, { "Day Of The Shred", "Rosalita" },
         { "Sweet Street", "Tasha" }, { "G-Tiger", "Jaewoo" },
         { "Cy-Board", "Tagbot" }, { "Cobweb", "Lucy" },

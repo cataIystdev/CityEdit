@@ -148,6 +148,7 @@ public static class SkinDatabase
         { 2085271833, new SkinInfo(-2125407733, "Georgie Default", "georgie_default") },
         { -1648267179, new SkinInfo(-2125407733, "Georgie Chicago Bulls", "georgie_chicago_bulls") },
         { 1136726127, new SkinInfo(-2125407733, "Georgie Bling", "georgie_bling") },
+        { 1119532892, new SkinInfo(-2125407733, "Georgie Legendary", "georgie_legendary") },
 
         // Lucy
         { 726823100, new SkinInfo(852717139, "Lucy Default", "lucy_default") },

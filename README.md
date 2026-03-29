@@ -368,6 +368,7 @@ The Android build is configured to use Vulkan as the primary rendering backend w
 
 **Acknowledgments:**
 - [Layxtar](https://github.com/Layxtar) - for save editor research and game data structure insights
+- [ADrive](https://4pda.to/forum/index.php?showuser=8063499) - for save editor research and game data structure insights
 
 ## License
 

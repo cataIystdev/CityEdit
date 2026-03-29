@@ -42,6 +42,16 @@ public partial class MainWindowViewModel : ViewModelBase
     /// </summary>
     public bool IsMobile { get; }
 
+    /// <summary>
+    /// Версия приложения из Constants.
+    /// </summary>
+    public string AppVersion => Constants.AppVersion;
+
+    /// <summary>
+    /// Строка версии для status bar десктопа.
+    /// </summary>
+    public string AppVersionLine => $"{Constants.AppVersion} // Catalyst";
+
     // ---- Свойства состояния ----
 
     /// <summary>

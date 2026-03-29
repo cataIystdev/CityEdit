@@ -156,7 +156,7 @@
                 <TextBlock Grid.Column="1"
                            Text="{Binding LoadedFileName}" Foreground="#808080"
                            FontSize="11" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                <TextBlock Grid.Column="2" Text="v1.0.0 // Catalyst"
+                <TextBlock Grid.Column="2" Text="{Binding AppVersionLine}"
                            Foreground="#333333" FontSize="11"
                            VerticalAlignment="Center"/>
             </Grid>
