@@ -54,8 +54,8 @@
                                            TextWrapping="Wrap"/>
                             </StackPanel>
 
-                            <!-- Управление: unlock + lvl + score — адаптивная сетка -->
-                            <Grid ColumnDefinitions="*,*,*">
+                            <!-- Управление: unlock + lvl -->
+                            <Grid ColumnDefinitions="*,*">
                                 <!-- Разблокировка -->
                                 <StackPanel Orientation="Horizontal"
                                             Spacing="8" VerticalAlignment="Center"
@@ -77,19 +77,18 @@
                                                    MinWidth="90" FontSize="13"
                                                    HorizontalAlignment="Stretch"/>
                                 </StackPanel>
-
-                                <!-- Рекорд -->
-                                <StackPanel Grid.Column="2" Orientation="Horizontal"
-                                            Spacing="4" VerticalAlignment="Center"
-                                            HorizontalAlignment="Center">
-                                    <TextBlock Text="SCORE" FontSize="10"
-                                               Foreground="#808080" VerticalAlignment="Center"/>
-                                    <NumericUpDown Value="{Binding HighScore}"
-                                                   Minimum="0" Maximum="999999999"
-                                                   MinWidth="110" FontSize="13"
-                                                   HorizontalAlignment="Stretch"/>
-                                </StackPanel>
                             </Grid>
+
+                            <!-- Рекорд — отдельная строка по центру -->
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="6" HorizontalAlignment="Center">
+                                <TextBlock Text="SCORE" FontSize="10"
+                                           Foreground="#808080" VerticalAlignment="Center"/>
+                                <NumericUpDown Value="{Binding HighScore}"
+                                               Minimum="0" Maximum="999999999"
+                                               MinWidth="150" FontSize="13"
+                                               HorizontalAlignment="Center"/>
+                            </StackPanel>
 
                             <!-- Скины серфера — WrapPanel с адаптивной шириной -->
                             <ItemsControl ItemsSource="{Binding Skins}"

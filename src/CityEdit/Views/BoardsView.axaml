@@ -27,19 +27,25 @@
                 <DataTemplate x:DataType="items:BoardItemViewModel">
                     <Border Classes="card" Margin="0,0,0,6">
                         <StackPanel Spacing="6">
-                            <!-- Имя доски + владелец — сверху, полная ширина -->
-                            <StackPanel HorizontalAlignment="Center">
-                                <TextBlock Text="{Binding DisplayName}"
-                                           FontWeight="Bold" FontSize="13"
-                                           HorizontalAlignment="Center"
-                                           TextAlignment="Center"
-                                           TextTrimming="None"
-                                           TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding OwnerName}"
-                                           FontSize="11" Foreground="#808080"
-                                           HorizontalAlignment="Center"
-                                           TextAlignment="Center"
-                                           IsVisible="{Binding OwnerName, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                            <!-- Иконка + имя доски + владелец -->
+                            <StackPanel Orientation="Horizontal" Spacing="10"
+                                        HorizontalAlignment="Center">
+                                <Border Width="40" Height="40" CornerRadius="20"
+                                        ClipToBounds="True"
+                                        IsVisible="{Binding Portrait, Converter={x:Static ObjectConverters.IsNotNull}}">
+                                    <Image Source="{Binding Portrait}"
+                                           Width="40" Height="40"
+                                           Stretch="UniformToFill"/>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="{Binding DisplayName}"
+                                               FontWeight="Bold" FontSize="13"
+                                               TextTrimming="None"
+                                               TextWrapping="Wrap"/>
+                                    <TextBlock Text="{Binding OwnerName}"
+                                               FontSize="11" Foreground="#808080"
+                                               IsVisible="{Binding OwnerName, Converter={x:Static ObjectConverters.IsNotNull}}"/>
+                                </StackPanel>
                             </StackPanel>
 
                             <!-- Управление: unlock + lvl -->

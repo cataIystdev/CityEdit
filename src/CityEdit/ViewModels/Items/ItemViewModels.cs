@@ -193,6 +193,11 @@ public partial class BoardItemViewModel : ObservableObject
     public string? OwnerName { get; }
 
     /// <summary>
+    /// Иконка доски.
+    /// </summary>
+    public Bitmap? Portrait { get; }
+
+    /// <summary>
     /// Полное отображаемое имя (имя доски + владелец).
     /// </summary>
     public string FullDisplayName =>
@@ -223,6 +228,7 @@ public partial class BoardItemViewModel : ObservableObject
         _isUnlocked = isUnlocked;
         _level = level;
         _profileService = profileService;
+        Portrait = IconService.GetBoardIcon(displayName);
     }
 
     /// <summary>
