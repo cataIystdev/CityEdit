@@ -17,7 +17,7 @@ public partial class MobileMainView : UserControl
     /// Массив ScrollViewer для каждой вкладки.
     /// Индексы совпадают с Tab Tag.
     /// </summary>
-    private ScrollViewer?[] _tabs = new ScrollViewer?[7];
+    private ScrollViewer?[] _tabs = new ScrollViewer?[8];
 
     /// <summary>
     /// Список кнопок навигации для управления стилями.
